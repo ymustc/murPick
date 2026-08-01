@@ -1,0 +1,237 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Selection Report v1 — Personal Productivity App</title>
+<style>
+  :root{
+    --paper:#f7f1e5; --card:#fffdf7; --ink:#3d3226; --ink-soft:#7a6c58;
+    --accent:#b5651d; --accent-soft:#f3e2cf; --line:#e6dac6;
+    --in:#e8f0dd; --in-line:#9bb178; --out:#f4e3df; --out-line:#c99a8c;
+    --defer:#fdf3df; --defer-line:#e0b877;
+  }
+  *{box-sizing:border-box}
+  body{margin:0;background:var(--paper);color:var(--ink);
+    font:16px/1.55 -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif;
+    padding:1.2rem .9rem 3rem}
+  main{max-width:860px;margin:0 auto}
+  h1{font-size:1.5rem;margin:.2rem 0 .2rem}
+  h2{font-size:1.15rem;margin:2.2rem 0 .6rem;padding-bottom:.3rem;border-bottom:2px solid var(--line);color:var(--accent)}
+  h3{font-size:1rem;margin:1.2rem 0 .4rem}
+  .sub{color:var(--ink-soft);font-size:.92rem;margin:0 0 1rem}
+  .badge{display:inline-block;font-size:.72rem;font-weight:700;letter-spacing:.05em;
+    background:var(--accent);color:#fff;border-radius:999px;padding:.15rem .6rem;vertical-align:middle;margin-left:.4rem}
+  .card{background:var(--card);border:1px solid var(--line);border-radius:12px;
+    padding:.9rem 1rem;margin:.8rem 0;box-shadow:0 1px 3px rgba(90,70,40,.07)}
+  .tablewrap{overflow-x:auto;margin:.6rem 0}
+  table{border-collapse:collapse;width:100%;font-size:.88rem;background:var(--card)}
+  th,td{border:1px solid var(--line);padding:.45rem .55rem;text-align:left;vertical-align:top}
+  th{background:var(--accent-soft);font-size:.8rem;text-transform:uppercase;letter-spacing:.05em;color:var(--ink-soft)}
+  code{background:var(--accent-soft);border-radius:5px;padding:.05rem .35rem;font-size:.85em}
+  .pill{display:inline-block;font-size:.72rem;font-weight:700;border-radius:999px;padding:.1rem .55rem;white-space:nowrap}
+  .pill.in{background:var(--in);border:1px solid var(--in-line);color:#4a5c2e}
+  .pill.out{background:var(--out);border:1px solid var(--out-line);color:#7a3f2e}
+  .pill.defer{background:var(--defer);border:1px solid var(--defer-line);color:#7a5a1d}
+  .toc{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:.8rem 1rem}
+  .toc ol{margin:.3rem 0 .2rem 1.2rem;padding:0}
+  .toc a{color:var(--accent);text-decoration:none}
+  .note{background:var(--accent-soft);border-radius:10px;padding:.7rem .9rem;font-size:.9rem}
+  blockquote{margin:.6rem 0;padding:.6rem .9rem;border-left:4px solid var(--accent);
+    background:var(--card);border-radius:0 10px 10px 0;font-style:italic;color:var(--ink-soft)}
+  .stats{display:flex;gap:.7rem;flex-wrap:wrap;margin:.8rem 0}
+  .stat{flex:1 1 120px;background:var(--card);border:1px solid var(--line);border-radius:12px;padding:.7rem .8rem;text-align:center}
+  .stat b{display:block;font-size:1.5rem;color:var(--accent)}
+  .stat span{font-size:.8rem;color:var(--ink-soft)}
+  /* pure-CSS architecture diagram */
+  .arch{display:flex;flex-direction:column;gap:.35rem;margin:.8rem 0}
+  .lane{border:1px solid var(--line);border-radius:12px;background:var(--card);padding:.6rem .7rem}
+  .lane>.lane-name{font-size:.72rem;text-transform:uppercase;letter-spacing:.07em;color:var(--ink-soft);margin-bottom:.45rem}
+  .boxes{display:flex;gap:.5rem;flex-wrap:wrap}
+  .box{flex:1 1 120px;min-width:110px;border:1.5px solid var(--accent);border-radius:9px;
+    background:var(--accent-soft);padding:.45rem .55rem;font-size:.82rem;text-align:center}
+  .box small{display:block;color:var(--ink-soft);font-size:.72rem;margin-top:.15rem}
+  .box.future{border-style:dashed;background:var(--defer);border-color:var(--defer-line);color:var(--ink-soft)}
+  .flow{text-align:center;color:var(--ink-soft);font-size:1rem;line-height:1;margin:-.05rem 0}
+  footer{margin-top:2.5rem;font-size:.8rem;color:var(--ink-soft);border-top:1px solid var(--line);padding-top:.8rem}
+</style>
+</head>
+<body>
+<main>
+  <h1>Selection Report — Personal Productivity App <span class="badge">v1 · 2026-08-01</span></h1>
+  <p class="sub">Scope baseline derived from your checked menu
+  (<code>feature-menu-checked.html</code>, burned 2026-08-01) and your free-text note.
+  Source research: <code>research-summary.md</code>. Every one of the 60 menu items is accounted
+  for below — 18 checked, 42 unchecked — plus 2 comment-derived decisions.</p>
+
+  <div class="stats">
+    <div class="stat"><b>18</b><span>items selected</span></div>
+    <div class="stat"><b>2</b><span>selected but deferred (your note)</span></div>
+    <div class="stat"><b>42</b><span>explicit non-goals</span></div>
+    <div class="stat"><b>5</b><span>v1 modules</span></div>
+  </div>
+
+  <nav class="toc">
+    <strong>Contents</strong>
+    <ol>
+      <li><a href="#summary">Scope statement</a></li>
+      <li><a href="#modules">Selected scope by module</a></li>
+      <li><a href="#deferred">Selected but deferred: sync</a></li>
+      <li><a href="#boundaries">Explicit boundaries (what v1 is not)</a></li>
+      <li><a href="#arch">Architecture sketch</a></li>
+      <li><a href="#risks">Risk table</a></li>
+      <li><a href="#appendix">Appendix: comment handling &amp; traceability</a></li>
+    </ol>
+  </nav>
+
+  <h2 id="summary">1 · Scope statement</h2>
+  <div class="card">
+    <p><strong>V1 is a local-first, offline PWA for one person</strong> combining three light modules —
+    tasks, habits, quick-capture notes — under one statistics/review surface. The habit engine is the
+    centerpiece and deliberately gentle: decay-based strength scores and monthly completion rates,
+    never hard streak resets. No gamification, no timers, no integrations, no accounts, no server.
+    All data lives in the browser; the data model must be sync-ready, but sync itself ships later.</p>
+    <p style="margin-bottom:0">Your note, folded in as binding constraints:</p>
+    <blockquote>"V1 must run entirely offline in the browser. Sync can wait until the habit sticks.
+    No gamification — I know myself."</blockquote>
+  </div>
+
+  <h2 id="modules">2 · Selected scope by module</h2>
+
+  <h3>2.1 Habits engine (core module)</h3>
+  <div class="tablewrap"><table>
+    <tr><th>Menu id</th><th>Capability</th><th>Borrowed from</th><th>Decision note</th></tr>
+    <tr><td><code>cc-2</code></td><td><span class="pill in">IN</span> Habit check-ins</td><td>category-wide</td><td>The module itself.</td></tr>
+    <tr><td><code>bvr-f1</code></td><td><span class="pill in">IN</span> One-tap check-in, no numbers, no forms</td><td>Beaver Habit Tracker</td><td>Interaction bar for the whole module: a check-in is a single tap.</td></tr>
+    <tr><td><code>loop-f2</code></td><td><span class="pill in">IN</span> Flexible frequencies ("3× a week", "every other day")</td><td>Loop Habit Tracker</td><td>Schedule model must support non-daily targets from day one.</td></tr>
+    <tr><td><code>loop-f1</code> + <code>fn-2</code></td><td><span class="pill in">IN</span> Decay-based habit strength score</td><td>Loop Habit Tracker</td><td>The progress metric. Misses soften the score, never zero it.</td></tr>
+    <tr><td><code>fn-1</code></td><td><span class="pill in">IN</span> No hard streak resets; monthly completion-rate views instead</td><td>field notes</td><td>v1 principle. Consistent with your unchecking of both streak items (<code>bvr-f2</code>, <code>fn-3</code>).</td></tr>
+  </table></div>
+
+  <h3>2.2 Tasks</h3>
+  <div class="tablewrap"><table>
+    <tr><th>Menu id</th><th>Capability</th><th>Borrowed from</th><th>Decision note</th></tr>
+    <tr><td><code>cc-1</code></td><td><span class="pill in">IN</span> Task management (create / complete / organize)</td><td>category-wide</td><td><strong>Flat tasks only</strong> — you did not select sub-task nesting (<code>sup-f1</code>), time tracking (<code>sup-f3</code>), pomodoro (<code>sup-f2</code>), or calendar/time-blocking. A simple list with done-states and light ordering.</td></tr>
+  </table></div>
+
+  <h3>2.3 Quick capture &amp; notes</h3>
+  <div class="tablewrap"><table>
+    <tr><th>Menu id</th><th>Capability</th><th>Borrowed from</th><th>Decision note</th></tr>
+    <tr><td><code>cc-6</code></td><td><span class="pill in">IN</span> Quick-capture inbox (jot now, sort later)</td><td>category-wide</td><td>Capture entry point; items can graduate into tasks or habits.</td></tr>
+    <tr><td><code>mem-f1</code></td><td><span class="pill in">IN</span> Timeline-style notes (tweet-to-yourself feel)</td><td>Memos</td><td>The inbox renders as a reverse-chronological timeline.</td></tr>
+    <tr><td><code>mem-f2</code></td><td><span class="pill in">IN</span> Tag-based organization</td><td>Memos</td><td>Tags only — no markdown (<code>mem-f3</code> unchecked), plain text is fine.</td></tr>
+  </table></div>
+
+  <h3>2.4 Statistics &amp; review</h3>
+  <div class="tablewrap"><table>
+    <tr><th>Menu id</th><th>Capability</th><th>Borrowed from</th><th>Decision note</th></tr>
+    <tr><td><code>cc-4</code></td><td><span class="pill in">IN</span> Statistics dashboard (day / week / month)</td><td>category-wide</td><td>Built on data v1 already produces automatically (check-ins, completions) — nothing that needs manual entry, per <code>fn-5</code>.</td></tr>
+    <tr><td><code>cc-12</code></td><td><span class="pill in">IN</span> Daily / weekly review flow</td><td>category-wide</td><td>Guided look-back: sweep the inbox, glance at habit strength, close the day/week. Keep it to minutes, not a ritual.</td></tr>
+  </table></div>
+
+  <h3>2.5 Platform &amp; data</h3>
+  <div class="tablewrap"><table>
+    <tr><th>Menu id</th><th>Capability</th><th>Borrowed from</th><th>Decision note</th></tr>
+    <tr><td><code>sup-t1</code> + <code>fn-4</code></td><td><span class="pill in">IN</span> Local-first storage, fully offline, data owned by you</td><td>Super Productivity / field notes</td><td>Browser storage (IndexedDB) is the source of truth. Reinforced by your note: "entirely offline in the browser."</td></tr>
+    <tr><td><code>bvr-f4</code></td><td><span class="pill in">IN</span> Installable PWA</td><td>Beaver Habit Tracker</td><td>Service worker + manifest; installs to the home screen on phone and laptop.</td></tr>
+    <tr><td><code>fn-5</code></td><td><span class="pill in">IN</span> Exclude manual-entry-heavy features</td><td>field notes</td><td>Adopted as a design filter for the whole v1, not just a non-goal list entry.</td></tr>
+  </table></div>
+
+  <h2 id="deferred">3 · Selected but deferred: sync</h2>
+  <div class="card">
+    <p>You checked two sync items, but your note says <em>"Sync can wait until the habit sticks."</em>
+    The note wins on timing; the checkmarks win on architecture. So:</p>
+    <div class="tablewrap"><table>
+      <tr><th>Menu id</th><th>Capability</th><th>Status</th><th>What v1 must still do about it</th></tr>
+      <tr><td><code>cc-10</code></td><td>Multi-device sync (phone + laptop)</td><td><span class="pill defer">DEFERRED → v1.x</span></td><td rowspan="2">v1 ships no sync code, but the data layer must be sync-ready: every record gets a stable id + updated-at timestamp, and the store is exportable as a single file. That keeps the WebDAV path open without rework — and doubles as the v1 backup story.</td></tr>
+      <tr><td><code>sup-t2</code></td><td>Optional self-managed sync via WebDAV (no vendor cloud)</td><td><span class="pill defer">DEFERRED → v1.x</span></td></tr>
+    </table></div>
+    <p class="note" style="margin-bottom:0"><strong>Consequence to accept:</strong> until sync ships, phone and
+    laptop are two separate datasets. Pick one primary device for habits, or lean on manual
+    export/import. Flag this now so it isn't a surprise in week two.</p>
+  </div>
+
+  <h2 id="boundaries">4 · Explicit boundaries — what v1 is <em>not</em></h2>
+  <p class="sub">All 42 unchecked items, grouped. These are decisions, not omissions; revisit only via a new menu round.</p>
+  <div class="tablewrap"><table>
+    <tr><th>Boundary</th><th>Unchecked items</th><th>Signal</th></tr>
+    <tr><td><span class="pill out">OUT</span> Gamification, in any flavor</td><td>Entire Habitica card (<code>hab-t1</code>, <code>hab-f1</code>, <code>hab-f2</code>, <code>hab-f3</code>, <code>hab-f4</code>), entire Forest card (<code>for-f1</code>, <code>for-f2</code>, <code>for-f3</code>), points (<code>don-f2</code>), gamified rewards (<code>cc-9</code>)</td><td>Unanimous unchecking + your note: "No gamification — I know myself." Strongest boundary in the set.</td></tr>
+    <tr><td><span class="pill out">OUT</span> Hard streak mechanics</td><td>Streak heatmap (<code>bvr-f2</code>), classic streak counter (<code>fn-3</code>)</td><td>Coherent with <code>fn-1</code>/<code>fn-2</code>: strength score and completion rates replace streaks entirely.</td></tr>
+    <tr><td><span class="pill out">OUT</span> Focus / time features</td><td>Pomodoro (<code>sup-f2</code>, <code>cc-3</code>), per-task time tracking (<code>sup-f3</code>), tasks-in-calendar (<code>tick-f1</code>), vertical day timeline + time-blocking (<code>struc-f1</code>, <code>struc-f2</code>)</td><td>v1 tracks what you did, not how long or when-scheduled.</td></tr>
+    <tr><td><span class="pill out">OUT</span> Task complexity</td><td>Sub-tasks/nesting (<code>sup-f1</code>), natural-language creation (<code>don-f1</code>, <code>cc-7</code>), voice entry (<code>cc-8</code>)</td><td>Flat, typed-by-hand tasks.</td></tr>
+    <tr><td><span class="pill out">OUT</span> Integrations &amp; APIs</td><td>Jira/GitHub sync (<code>sup-f4</code>), REST API (<code>bvr-f3</code>), open API (<code>mem-f4</code>), NFC tags (<code>don-f3</code>), Home Assistant (<code>don-f4</code>), health auto-completion (<code>str-f1</code>), every-platform vendor sync (<code>tick-f2</code>)</td><td>Nothing talks to anything in v1. Matches offline-only constraint.</td></tr>
+    <tr><td><span class="pill out">OUT</span> Manual-entry-heavy tracking</td><td>Numeric goal tracking (<code>cc-5</code>)</td><td>Direct application of adopted principle <code>fn-5</code> (highest-abandonment category).</td></tr>
+    <tr><td><span class="pill out">OUT</span> Template / workspace machinery</td><td>Multi-view databases (<code>not-f1</code>), user templates (<code>not-f2</code>, <code>cc-11</code>), free-form pages (<code>not-f3</code>), all-in-one stance (<code>tick-t1</code>)</td><td>Opinionated fixed screens instead of a build-your-own workspace.</td></tr>
+    <tr><td><span class="pill out">OUT</span> Deployment &amp; platform extras</td><td>Self-hosted container (<code>bvr-t2</code>), self-hosted note store stance (<code>mem-t1</code>), home-screen widgets (<code>loop-f3</code>), markdown notes (<code>mem-f3</code>), no-goal philosophy as a whole (<code>bvr-t1</code>), zero-network purism (<code>loop-t1</code>), minimalist habit-count cap (<code>str-t1</code>)</td><td>The PWA in a normal browser is the only deployment target. (Offline behavior comes from <code>sup-t1</code>/<code>fn-4</code>; the unchecked <code>loop-t1</code> "zero network ever" stance is not adopted, which keeps future sync legal.)</td></tr>
+  </table></div>
+
+  <h2 id="arch">5 · Architecture sketch</h2>
+  <p class="sub">Boxes = v1 build items. Dashed = designed-for but not built in v1.</p>
+  <div class="arch">
+    <div class="lane"><div class="lane-name">UI · installable PWA shell (bvr-f4)</div>
+      <div class="boxes">
+        <div class="box">Today<small>tasks + due habit check-ins, one tap (bvr-f1)</small></div>
+        <div class="box">Habits<small>strength scores, schedules (loop-f1/f2)</small></div>
+        <div class="box">Tasks<small>flat list (cc-1)</small></div>
+        <div class="box">Inbox<small>timeline + tags (cc-6, mem-f1/f2)</small></div>
+        <div class="box">Stats &amp; Review<small>day/week/month, review flow (cc-4, cc-12)</small></div>
+      </div>
+    </div>
+    <div class="flow">▼</div>
+    <div class="lane"><div class="lane-name">Domain logic</div>
+      <div class="boxes">
+        <div class="box">Habit engine<small>flexible schedules · decay score · monthly rates (fn-1/fn-2)</small></div>
+        <div class="box">Task engine<small>create / complete / order</small></div>
+        <div class="box">Capture<small>note → tag → promote to task/habit</small></div>
+        <div class="box">Stats aggregator<small>derived only from automatic events (fn-5)</small></div>
+      </div>
+    </div>
+    <div class="flow">▼</div>
+    <div class="lane"><div class="lane-name">Data · local-first, offline (sup-t1, fn-4)</div>
+      <div class="boxes">
+        <div class="box">IndexedDB store<small>stable ids + updated-at on every record</small></div>
+        <div class="box">Export / import<small>single-file backup (v1's safety net)</small></div>
+        <div class="box future">WebDAV sync adapter<small>v1.x — slot reserved (sup-t2, cc-10)</small></div>
+      </div>
+    </div>
+  </div>
+
+  <h2 id="risks">6 · Risk table (honest edition)</h2>
+  <div class="tablewrap"><table>
+    <tr><th>Risk</th><th>Severity</th><th>Reality check</th><th>Mitigation in scope</th></tr>
+    <tr><td>Browser storage is evictable</td><td><strong>High</strong></td><td>"Entirely offline in the browser" means IndexedDB. Clearing site data — or iOS evicting storage for rarely-used sites — silently destroys everything.</td><td>Export/import file backup is a v1 must-have, not a nice-to-have; request the persistent-storage permission; install as PWA (installed apps are evicted far less).</td></tr>
+    <tr><td>Two devices, two datasets until sync</td><td>Medium</td><td>You checked multi-device sync but deferred it; nothing bridges phone and laptop in v1.</td><td>Named and accepted in §3. Sync-ready data model keeps the fix cheap.</td></tr>
+    <tr><td>Decay-score algorithm complexity</td><td>Medium</td><td>Loop's strength score interacts non-trivially with flexible frequencies ("3× a week" — which misses count?). Easy to get subtly wrong and demotivating if it feels unfair.</td><td>Implement Loop's published exponential-moving-average approach against the scheduled-day sequence; unit-test against hand-computed cases before styling anything.</td></tr>
+    <tr><td>Review flow scope creep</td><td>Medium</td><td>"Guided review" is where productivity apps quietly grow journaling, mood tracking, and other <code>fn-5</code> violations.</td><td>Hard rule from <code>fn-5</code>: the review may only show data the app already has and ask for taps, never typing.</td></tr>
+    <tr><td>Stats look empty for weeks</td><td>Low</td><td>Day/week/month dashboards need history; month views are meaningless until ~week 4.</td><td>Design empty states honestly ("3 weeks until this chart means something") rather than faking density.</td></tr>
+    <tr><td>Three modules is still a lot for a v1</td><td>Low</td><td>Tasks + habits + notes + stats is the honest reading of your picks, but it's 4 screens of surface area.</td><td>Selections already cut the fat (flat tasks, plain notes). If time pressure hits, the habit engine is the centerpiece; tasks and inbox degrade gracefully to minimal lists.</td></tr>
+  </table></div>
+
+  <h2 id="appendix">7 · Appendix — comment handling &amp; traceability</h2>
+  <div class="card">
+    <h3 style="margin-top:0">Free-text comment → decisions</h3>
+    <div class="tablewrap"><table>
+      <tr><th>Your words</th><th>Where it landed</th></tr>
+      <tr><td>"V1 must run entirely offline in the browser."</td><td>§1 scope statement; §2.5 platform (IndexedDB source of truth); §5 data lane; §6 risk #1.</td></tr>
+      <tr><td>"Sync can wait until the habit sticks."</td><td>§3 — <code>cc-10</code> and <code>sup-t2</code> reclassified from IN to DEFERRED with a sync-ready-model requirement.</td></tr>
+      <tr><td>"No gamification — I know myself."</td><td>§4 boundary row 1, upgrading the unchecked gamification items from "not picked" to "hard exclusion."</td></tr>
+    </table></div>
+    <h3>Checked-item coverage check</h3>
+    <p style="margin-bottom:.3rem">All 18 checked ids are mapped exactly once as IN or DEFERRED:</p>
+    <p class="sub" style="margin-bottom:0">
+      <code>sup-t1</code> §2.5 · <code>sup-t2</code> §3 · <code>bvr-f1</code> §2.1 · <code>bvr-f4</code> §2.5 ·
+      <code>loop-f1</code> §2.1 · <code>loop-f2</code> §2.1 · <code>mem-f1</code> §2.3 · <code>mem-f2</code> §2.3 ·
+      <code>cc-1</code> §2.2 · <code>cc-2</code> §2.1 · <code>cc-4</code> §2.4 · <code>cc-6</code> §2.3 ·
+      <code>cc-10</code> §3 · <code>cc-12</code> §2.4 · <code>fn-1</code> §2.1 · <code>fn-2</code> §2.1 ·
+      <code>fn-4</code> §2.5 · <code>fn-5</code> §2.5 + §4 + §6.
+      All 42 unchecked ids appear in §4.</p>
+    <h3>Revision log</h3>
+    <p style="margin-bottom:0">v1 (2026-08-01) — initial report from <code>feature-menu-checked.html</code>.
+    Future revisions will be saved as <code>selection-report-v2.html</code> etc., never overwriting this file.</p>
+  </div>
+
+  <footer>murPick selection report · generated 2026-08-01 · inputs:
+  <code>feature-menu-checked.html</code> (18/60 checked + comment), <code>research-summary.md</code>.</footer>
+</main>
+</body>
+</html>

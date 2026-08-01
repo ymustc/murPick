@@ -1,0 +1,326 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Feature Menu — Personal Productivity App v1</title>
+<style>
+  :root{
+    --paper:#f7f1e5; --card:#fffdf7; --ink:#3d3226; --ink-soft:#7a6c58;
+    --accent:#b5651d; --accent-soft:#f3e2cf; --line:#e6dac6;
+    --on:#fdf3df; --on-line:#e0b877;
+  }
+  *{box-sizing:border-box}
+  body{margin:0;background:var(--paper);color:var(--ink);
+    font:16px/1.55 -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif;
+    padding:1.2rem .9rem 7.5rem}
+  main{max-width:760px;margin:0 auto}
+  h1{font-size:1.45rem;margin:.2rem 0 .3rem}
+  h2{font-size:1.12rem;margin:2rem 0 .6rem;padding-bottom:.3rem;border-bottom:2px solid var(--line);color:var(--accent)}
+  .sub{color:var(--ink-soft);font-size:.92rem;margin:0 0 1rem}
+  .card{background:var(--card);border:1px solid var(--line);border-radius:12px;
+    padding:.9rem 1rem;margin:.8rem 0;box-shadow:0 1px 3px rgba(90,70,40,.07)}
+  .card-head{display:flex;align-items:baseline;justify-content:space-between;gap:.6rem;flex-wrap:wrap}
+  .card-head h3{margin:0;font-size:1.05rem}
+  .meta{font-size:.82rem;color:var(--ink-soft);margin:.15rem 0 .5rem}
+  .meta a{color:var(--accent);text-decoration:none;border-bottom:1px dotted var(--accent)}
+  .grp{font-size:.78rem;text-transform:uppercase;letter-spacing:.06em;color:var(--ink-soft);margin:.6rem 0 .2rem}
+  label.item{display:flex;gap:.55rem;align-items:flex-start;padding:.42rem .5rem;margin:.15rem 0;
+    border-radius:8px;cursor:pointer;border:1px solid transparent}
+  label.item:active{background:var(--accent-soft)}
+  label.item.on{background:var(--on);border-color:var(--on-line)}
+  label.item input{width:1.15rem;height:1.15rem;margin:.15rem 0 0;flex:none;accent-color:var(--accent)}
+  label.sel-all{display:inline-flex;gap:.4rem;align-items:center;font-size:.83rem;color:var(--ink-soft);
+    cursor:pointer;padding:.2rem .5rem;border:1px solid var(--line);border-radius:999px;background:var(--paper)}
+  label.sel-all input{accent-color:var(--accent);width:1rem;height:1rem;margin:0}
+  .note{background:var(--accent-soft);border-radius:10px;padding:.7rem .9rem;font-size:.9rem;color:var(--ink)}
+  textarea{width:100%;min-height:110px;border:1px solid var(--line);border-radius:10px;background:var(--card);
+    color:var(--ink);font:inherit;padding:.7rem;resize:vertical}
+  #bar{position:fixed;left:0;right:0;bottom:0;background:rgba(61,50,38,.96);color:#f7f1e5;
+    padding:.65rem .9rem calc(.65rem + env(safe-area-inset-bottom));display:flex;gap:.6rem;align-items:center;
+    justify-content:center;flex-wrap:wrap;backdrop-filter:blur(4px)}
+  #count{font-weight:700;font-size:.95rem}
+  #bar button{border:0;border-radius:999px;padding:.55rem 1rem;font:inherit;font-size:.9rem;
+    cursor:pointer;background:var(--accent);color:#fff}
+  #bar button.ghost{background:transparent;border:1px solid #b7a88f;color:#f0e6d3}
+  @media (max-width:480px){body{font-size:15px}#bar{gap:.45rem}#bar button{padding:.5rem .8rem}}
+</style>
+</head>
+<body>
+<main>
+  <h1>Feature Menu — Personal Productivity App v1</h1>
+  <p class="sub">À la carte from the research summary (<code>research-summary.md</code>, 2026-08-01).
+  Check every capability you want in v1 — <strong>unchecked items count too</strong>: they become
+  explicit "not in v1" boundaries in the final report. Your picks auto-save in this browser;
+  when done, use <em>Save checked copy</em> or <em>Export JSON</em> below and send the file back.</p>
+
+  <h2>Open-source counterparts</h2>
+
+  <div class="card" data-product="Super Productivity">
+    <div class="card-head"><h3>Super Productivity</h3>
+      <label class="sel-all"><input type="checkbox" class="sel-all-box" id="sup-all">select all</label></div>
+    <p class="meta">~21k★ · Angular / Electron · <a href="https://github.com/johannesjo/super-productivity">github.com/johannesjo/super-productivity</a></p>
+    <div class="grp">Traits</div>
+    <label class="item"><input type="checkbox" class="pick" id="sup-t1"><span>Local-first data storage (works fully offline, data owned by you)</span></label>
+    <label class="item"><input type="checkbox" class="pick" id="sup-t2"><span>Optional self-managed sync via WebDAV (no vendor cloud)</span></label>
+    <div class="grp">Features</div>
+    <label class="item"><input type="checkbox" class="pick" id="sup-f1"><span>To-do list with sub-tasks (task nesting)</span></label>
+    <label class="item"><input type="checkbox" class="pick" id="sup-f2"><span>Pomodoro timer attached to tasks</span></label>
+    <label class="item"><input type="checkbox" class="pick" id="sup-f3"><span>Per-task time tracking (how long each task actually took)</span></label>
+    <label class="item"><input type="checkbox" class="pick" id="sup-f4"><span>Sync tasks from external issue trackers (Jira / GitHub)</span></label>
+  </div>
+
+  <div class="card" data-product="Beaver Habit Tracker">
+    <div class="card-head"><h3>Beaver Habit Tracker</h3>
+      <label class="sel-all"><input type="checkbox" class="sel-all-box" id="bvr-all">select all</label></div>
+    <p class="meta">~1.8k★ · Python · <a href="https://github.com/daya0576/beaverhabits">github.com/daya0576/beaverhabits</a></p>
+    <div class="grp">Traits</div>
+    <label class="item"><input type="checkbox" class="pick" id="bvr-t1"><span>Minimalist "no-goal" philosophy — just record that you did it, no targets</span></label>
+    <label class="item"><input type="checkbox" class="pick" id="bvr-t2"><span>Deploys as a single self-hosted container</span></label>
+    <div class="grp">Features</div>
+    <label class="item"><input type="checkbox" class="pick" id="bvr-f1"><span>One-tap habit check-in (no numbers, no forms)</span></label>
+    <label class="item"><input type="checkbox" class="pick" id="bvr-f2"><span>Streak heatmap (GitHub-contribution-style calendar)</span></label>
+    <label class="item"><input type="checkbox" class="pick" id="bvr-f3"><span>REST API for programmatic check-ins / integrations</span></label>
+    <label class="item"><input type="checkbox" class="pick" id="bvr-f4"><span>Installable PWA so the web app works like a phone app</span></label>
+  </div>
+
+  <div class="card" data-product="Loop Habit Tracker">
+    <div class="card-head"><h3>Loop Habit Tracker</h3>
+      <label class="sel-all"><input type="checkbox" class="sel-all-box" id="loop-all">select all</label></div>
+    <p class="meta">~10k★ · Android native · <a href="https://github.com/iSoron/uhabits">github.com/iSoron/uhabits</a></p>
+    <div class="grp">Traits</div>
+    <label class="item"><input type="checkbox" class="pick" id="loop-t1"><span>Fully offline, zero accounts, zero network</span></label>
+    <div class="grp">Features</div>
+    <label class="item"><input type="checkbox" class="pick" id="loop-f1"><span>Habit strength score that decays on misses (no hard streak reset)</span></label>
+    <label class="item"><input type="checkbox" class="pick" id="loop-f2"><span>Flexible habit frequencies (e.g. "3 times a week", "every other day")</span></label>
+    <label class="item"><input type="checkbox" class="pick" id="loop-f3"><span>Home-screen widgets for zero-friction check-in</span></label>
+  </div>
+
+  <div class="card" data-product="Habitica">
+    <div class="card-head"><h3>Habitica</h3>
+      <label class="sel-all"><input type="checkbox" class="sel-all-box" id="hab-all">select all</label></div>
+    <p class="meta">~14k★ · Node / Vue · <a href="https://github.com/HabitRPG/habitica">github.com/HabitRPG/habitica</a></p>
+    <div class="grp">Traits</div>
+    <label class="item"><input type="checkbox" class="pick" id="hab-t1"><span>Full RPG-gamification school: productivity as a role-playing game</span></label>
+    <div class="grp">Features</div>
+    <label class="item"><input type="checkbox" class="pick" id="hab-f1"><span>XP and levels earned from completing tasks/habits</span></label>
+    <label class="item"><input type="checkbox" class="pick" id="hab-f2"><span>Virtual currency + collectible gear as rewards</span></label>
+    <label class="item"><input type="checkbox" class="pick" id="hab-f3"><span>Social accountability: party quests / boss fights with friends</span></label>
+    <label class="item"><input type="checkbox" class="pick" id="hab-f4"><span>Three task types: habits, dailies, and one-off to-dos</span></label>
+  </div>
+
+  <div class="card" data-product="Memos">
+    <div class="card-head"><h3>Memos</h3>
+      <label class="sel-all"><input type="checkbox" class="sel-all-box" id="mem-all">select all</label></div>
+    <p class="meta">~62k★ · Go / React · <a href="https://github.com/usememos/memos">github.com/usememos/memos</a></p>
+    <div class="grp">Traits</div>
+    <label class="item"><input type="checkbox" class="pick" id="mem-t1"><span>Self-hosted, privacy-first note store</span></label>
+    <div class="grp">Features</div>
+    <label class="item"><input type="checkbox" class="pick" id="mem-f1"><span>Timeline-style quick-capture notes (tweet-to-yourself feel)</span></label>
+    <label class="item"><input type="checkbox" class="pick" id="mem-f2"><span>Tag-based organization of captured notes</span></label>
+    <label class="item"><input type="checkbox" class="pick" id="mem-f3"><span>Markdown rendering in notes</span></label>
+    <label class="item"><input type="checkbox" class="pick" id="mem-f4"><span>Open API (REST/gRPC) so other tools can write notes in</span></label>
+  </div>
+
+  <div class="card" data-product="Donetick">
+    <div class="card-head"><h3>Donetick</h3>
+      <label class="sel-all"><input type="checkbox" class="sel-all-box" id="don-all">select all</label></div>
+    <p class="meta">~2.4k★ · Go / React · <a href="https://github.com/donetick/donetick">github.com/donetick/donetick</a></p>
+    <div class="grp">Features</div>
+    <label class="item"><input type="checkbox" class="pick" id="don-f1"><span>Natural-language task creation ("remind me every second Tuesday")</span></label>
+    <label class="item"><input type="checkbox" class="pick" id="don-f2"><span>Points system for completed chores/tasks</span></label>
+    <label class="item"><input type="checkbox" class="pick" id="don-f3"><span>NFC tag check-ins (tap phone on a physical tag to log)</span></label>
+    <label class="item"><input type="checkbox" class="pick" id="don-f4"><span>Home Assistant / smart-home integration</span></label>
+  </div>
+
+  <h2>Commercial products</h2>
+
+  <div class="card" data-product="TickTick">
+    <div class="card-head"><h3>TickTick</h3>
+      <label class="sel-all"><input type="checkbox" class="sel-all-box" id="tick-all">select all</label></div>
+    <p class="meta">All-in-one school · <a href="https://ticktick.com">ticktick.com</a></p>
+    <div class="grp">Traits</div>
+    <label class="item"><input type="checkbox" class="pick" id="tick-t1"><span>One app for everything: tasks + calendar + habits + focus in a single product</span></label>
+    <div class="grp">Features</div>
+    <label class="item"><input type="checkbox" class="pick" id="tick-f1"><span>Tasks and calendar unified in one view</span></label>
+    <label class="item"><input type="checkbox" class="pick" id="tick-f2"><span>Seamless sync across every platform/device</span></label>
+  </div>
+
+  <div class="card" data-product="Notion">
+    <div class="card-head"><h3>Notion</h3>
+      <label class="sel-all"><input type="checkbox" class="sel-all-box" id="not-all">select all</label></div>
+    <p class="meta">Template-driven workspace school · <a href="https://www.notion.so">notion.so</a> · caution: weak mobile quick check-in</p>
+    <div class="grp">Features</div>
+    <label class="item"><input type="checkbox" class="pick" id="not-f1"><span>Databases with multiple views (table / board / calendar of the same data)</span></label>
+    <label class="item"><input type="checkbox" class="pick" id="not-f2"><span>User-built templates (roll your own tracker layouts)</span></label>
+    <label class="item"><input type="checkbox" class="pick" id="not-f3"><span>Free-form pages mixing notes, lists, and structured data</span></label>
+  </div>
+
+  <div class="card" data-product="Forest">
+    <div class="card-head"><h3>Forest</h3>
+      <label class="sel-all"><input type="checkbox" class="sel-all-box" id="for-all">select all</label></div>
+    <p class="meta">Single-metaphor school · <a href="https://www.forestapp.cc">forestapp.cc</a></p>
+    <div class="grp">Features</div>
+    <label class="item"><input type="checkbox" class="pick" id="for-f1"><span>Focus session visualized as a growing tree; abandoning kills it</span></label>
+    <label class="item"><input type="checkbox" class="pick" id="for-f2"><span>Earned coins unlock cosmetic variety (tree species)</span></label>
+    <label class="item"><input type="checkbox" class="pick" id="for-f3"><span>Real-world tie-in (actual trees planted from usage)</span></label>
+  </div>
+
+  <div class="card" data-product="Streaks">
+    <div class="card-head"><h3>Streaks (Apple)</h3>
+      <label class="sel-all"><input type="checkbox" class="sel-all-box" id="str-all">select all</label></div>
+    <p class="meta">Design-award minimalism · <a href="https://streaksapp.com">streaksapp.com</a></p>
+    <div class="grp">Traits</div>
+    <label class="item"><input type="checkbox" class="pick" id="str-t1"><span>Deliberately limited habit count — minimalist by constraint</span></label>
+    <div class="grp">Features</div>
+    <label class="item"><input type="checkbox" class="pick" id="str-f1"><span>Auto-completion from health data (e.g. steps close the habit by themselves)</span></label>
+  </div>
+
+  <div class="card" data-product="Structured">
+    <div class="card-head"><h3>Structured</h3>
+      <label class="sel-all"><input type="checkbox" class="sel-all-box" id="struc-all">select all</label></div>
+    <p class="meta">Time-blocking school · <a href="https://structured.app">structured.app</a></p>
+    <div class="grp">Features</div>
+    <label class="item"><input type="checkbox" class="pick" id="struc-f1"><span>Day shown as a vertical timeline</span></label>
+    <label class="item"><input type="checkbox" class="pick" id="struc-f2"><span>Drag tasks into time blocks to plan the day</span></label>
+  </div>
+
+  <h2>Cross-cutting capabilities</h2>
+  <div class="card" data-product="Cross-cutting">
+    <div class="card-head"><h3>Category-wide building blocks</h3>
+      <label class="sel-all"><input type="checkbox" class="sel-all-box" id="cc-all">select all</label></div>
+    <p class="meta">Capabilities that recur across the whole category — pick the modules themselves.</p>
+    <label class="item"><input type="checkbox" class="pick" id="cc-1"><span>Task management (create / complete / organize to-dos)</span></label>
+    <label class="item"><input type="checkbox" class="pick" id="cc-2"><span>Habit check-ins (recurring behaviors marked done)</span></label>
+    <label class="item"><input type="checkbox" class="pick" id="cc-3"><span>Pomodoro / focus timer</span></label>
+    <label class="item"><input type="checkbox" class="pick" id="cc-4"><span>Statistics dashboard (day / week / month views)</span></label>
+    <label class="item"><input type="checkbox" class="pick" id="cc-5"><span>Numeric goal tracking (water intake, weight, pages read…)</span></label>
+    <label class="item"><input type="checkbox" class="pick" id="cc-6"><span>Quick-capture inbox (jot now, sort later)</span></label>
+    <label class="item"><input type="checkbox" class="pick" id="cc-7"><span>Natural-language entry (type "gym every Mon/Wed" and it parses)</span></label>
+    <label class="item"><input type="checkbox" class="pick" id="cc-8"><span>Voice entry</span></label>
+    <label class="item"><input type="checkbox" class="pick" id="cc-9"><span>Gamified rewards (points / strength / collectibles, any flavor)</span></label>
+    <label class="item"><input type="checkbox" class="pick" id="cc-10"><span>Multi-device sync (phone + laptop see the same data)</span></label>
+    <label class="item"><input type="checkbox" class="pick" id="cc-11"><span>Template system (predefined tracker setups)</span></label>
+    <label class="item"><input type="checkbox" class="pick" id="cc-12"><span>Daily / weekly review flow (guided look-back)</span></label>
+  </div>
+
+  <h2>Design decisions from field notes</h2>
+  <div class="card" data-product="Design decisions">
+    <div class="card-head"><h3>Architecture &amp; mechanics choices</h3>
+      <label class="sel-all"><input type="checkbox" class="sel-all-box" id="fn-all">select all</label></div>
+    <p class="meta">Not features but stances the research flagged — checking one adopts it as a v1 principle.</p>
+    <label class="item"><input type="checkbox" class="pick" id="fn-1"><span>No hard streak resets — use monthly completion-rate views instead (anti streak-anxiety)</span></label>
+    <label class="item"><input type="checkbox" class="pick" id="fn-2"><span>Decay-based habit strength score (Loop-style) as the progress metric</span></label>
+    <label class="item"><input type="checkbox" class="pick" id="fn-3"><span>Classic hard streak counter (accepting the streak-anxiety risk)</span></label>
+    <label class="item"><input type="checkbox" class="pick" id="fn-4"><span>Local-first storage with optional sync (the self-hosting community consensus)</span></label>
+    <label class="item"><input type="checkbox" class="pick" id="fn-5"><span>Explicitly exclude manual-entry-heavy features (expense tracking, mood graphs) from v1 — highest-abandonment category</span></label>
+  </div>
+
+  <h2>Requests you made in this task</h2>
+  <div class="note">No app-feature requests were stated in this task yet, so nothing is pre-checked.
+  (Your note about reading on phone and laptop shaped this menu's layout; if you also want the
+  <em>app</em> on both devices, check "Multi-device sync" above.) Anything missing goes in the box below.</div>
+
+  <h2>Anything else?</h2>
+  <p class="sub">Features not on the menu, priorities, tech constraints — free form.</p>
+  <textarea id="comment" placeholder="e.g. must be a PWA; v1 in 2 weekends; no accounts…"></textarea>
+</main>
+
+<div id="bar">
+  <span id="count">0 selected</span>
+  <button id="save-copy">Save checked copy</button>
+  <button id="export-json" class="ghost">Export JSON</button>
+</div>
+
+<script>
+(function(){
+  var KEY='murpick-feature-menu-v1';
+  var picks=[].slice.call(document.querySelectorAll('input.pick'));
+  var comment=document.getElementById('comment');
+  var countEl=document.getElementById('count');
+  var isBurned=document.body.hasAttribute('data-burned');
+
+  function refresh(persist){
+    var n=0;
+    picks.forEach(function(p){
+      p.closest('label.item').classList.toggle('on',p.checked);
+      if(p.checked)n++;
+    });
+    countEl.textContent=n+' selected';
+    document.querySelectorAll('.card').forEach(function(card){
+      var cps=[].slice.call(card.querySelectorAll('input.pick'));
+      var all=card.querySelector('input.sel-all-box');
+      if(all&&cps.length)all.checked=cps.every(function(p){return p.checked;});
+    });
+    if(persist!==false){
+      try{
+        var items={};
+        picks.forEach(function(p){if(p.checked)items[p.id]=1;});
+        localStorage.setItem(KEY,JSON.stringify({items:items,comment:comment.value}));
+      }catch(e){}
+    }
+  }
+
+  // Restore: a burned copy's baked-in state wins over localStorage.
+  if(isBurned){
+    refresh(false);
+  }else{
+    try{
+      var s=JSON.parse(localStorage.getItem(KEY)||'{}');
+      if(s.items)picks.forEach(function(p){if(s.items[p.id])p.checked=true;});
+      if(s.comment)comment.value=s.comment;
+    }catch(e){}
+    refresh(false);
+  }
+
+  picks.forEach(function(p){p.addEventListener('change',function(){refresh();});});
+  comment.addEventListener('input',function(){refresh();});
+  document.querySelectorAll('input.sel-all-box').forEach(function(all){
+    all.addEventListener('change',function(){
+      all.closest('.card').querySelectorAll('input.pick').forEach(function(p){p.checked=all.checked;});
+      refresh();
+    });
+  });
+
+  function download(name,content,type){
+    var a=document.createElement('a');
+    a.href=URL.createObjectURL(new Blob([content],{type:type}));
+    a.download=name;
+    document.body.appendChild(a);a.click();a.remove();
+  }
+
+  window.__burnHTML=function(){ // burn checked state into attributes, return full HTML
+    picks.concat([].slice.call(document.querySelectorAll('input.sel-all-box'))).forEach(function(p){
+      if(p.checked)p.setAttribute('checked','');else p.removeAttribute('checked');
+    });
+    comment.textContent=comment.value;
+    document.body.setAttribute('data-burned',new Date().toISOString());
+    return '<!DOCTYPE html>\n'+document.documentElement.outerHTML;
+  };
+
+  document.getElementById('save-copy').addEventListener('click',function(){
+    download('feature-menu-checked.html',window.__burnHTML(),'text/html');
+  });
+
+  window.__exportData=function(){
+    return {
+      generated:new Date().toISOString(),
+      source:'feature-menu.html (murPick)',
+      checkedCount:picks.filter(function(p){return p.checked;}).length,
+      checked:picks.filter(function(p){return p.checked;}).map(function(p){
+        return {id:p.id,
+          product:(p.closest('[data-product]')||{}).getAttribute?p.closest('[data-product]').getAttribute('data-product'):'',
+          label:p.parentElement.querySelector('span').textContent.replace(/\s+/g,' ').trim()};
+      }),
+      unchecked:picks.filter(function(p){return !p.checked;}).map(function(p){return p.id;}),
+      comment:comment.value
+    };
+  };
+
+  document.getElementById('export-json').addEventListener('click',function(){
+    download('feature-menu-selection.json',JSON.stringify(window.__exportData(),null,2),'application/json');
+  });
+})();
+</script>
+</body>
+</html>
