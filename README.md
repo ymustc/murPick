@@ -85,6 +85,16 @@ downloaded file back:
 
 > Here's my checked menu — write the selection report.
 
+## No-install fallback
+
+A useful chunk of the discipline works as a plain prompt convention: split
+research and selection into two passes, ban the research pass from
+recommending anything, and require the rejects to be listed as explicit
+boundaries (credit: launch-thread feedback). What the skill's artifact adds
+on top is per-item granularity, the burn-and-save round trip, and a
+validator-checked guarantee that every unchecked item resurfaces in the
+report.
+
 ## Quality: tested like code, not vibed
 
 This skill was built with TDD for documentation
