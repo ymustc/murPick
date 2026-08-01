@@ -2,6 +2,8 @@
 
 **AI research, à la carte.**
 
+![murPick demo: checking features on the menu, then the selection report](docs/demo.gif)
+
 Ask an AI to research competing products and you get a 5,000-word report. By the
 time you reach the end you've forgotten the beginning — and somewhere in the
 middle, the AI quietly decided your feature set *for* you.
