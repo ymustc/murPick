@@ -64,6 +64,13 @@ Runtimes that read `~/.agents/skills/` (Codex, Copilot CLI, Gemini CLI):
 git clone https://github.com/ymustc/murPick.git ~/.agents/skills/murpick
 ```
 
+**Compatibility note:** murPick follows the open
+[Agent Skills spec](https://agentskills.io) and its pipeline only needs
+common tools (shell, a web-fetch tool, ffmpeg for videos, Node for the
+validator). It is battle-tested on Claude Code; on other runtimes it should
+work but hasn't been formally tested — reports and issues are very welcome.
+It also works with any Anthropic-compatible model endpoint behind Claude Code.
+
 ## Use
 
 > I collected screenshots of habit-tracker apps I like in ./refs — help me

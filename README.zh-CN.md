@@ -51,6 +51,13 @@ git clone https://github.com/ymustc/murPick.git ~/.claude/skills/murpick
 git clone https://github.com/ymustc/murPick.git ~/.agents/skills/murpick
 ```
 
+**国内使用提示**：murPick 遵循开放的 [Agent Skills 规范](https://agentskills.io)，
+流程只依赖通用工具（shell、网页抓取、ffmpeg、Node）。不必非用 Anthropic 官方
+服务——Claude Code 支持任何 Anthropic 兼容的模型端点，国内主流大模型（智谱
+GLM、Kimi、DeepSeek 等）均提供此类 API，配置 `ANTHROPIC_BASE_URL` 即可低门槛
+使用。兼容 Agent Skills 规范的其他 CLI 理论上同样可用，但未经正式测试——
+欢迎提 issue 反馈你的运行时实测结果。
+
 ## 使用
 
 > 我在 ./refs 收集了一批我喜欢的习惯打卡 App 截图，帮我调研这个品类，

@@ -24,8 +24,8 @@ both become decisions.
 ## Stage 0 · Digest the materials (do this first, don't skip)
 
 1. Inspect every item: Read images directly; extract video frames with ffmpeg
-   (`fps=1/8` to start, denser for long videos); WebFetch links; `ls` local
-   folders before anything else.
+   (`fps=1/8` to start, denser for long videos); fetch links with your web
+   tool (WebFetch or equivalent); `ls` local folders before anything else.
 2. **Rename in place** (`mv`, not a copy) to descriptive names:
    `source-product-screen.ext`. Videos and other non-image files get renamed
    too. Keep account names and domains in their original spelling; only use a
