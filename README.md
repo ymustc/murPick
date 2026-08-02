@@ -2,6 +2,9 @@
 
 **AI research, à la carte.**
 
+> Don't read the report — **order from it.** You pick the dishes, AI does
+> the cooking, and nothing off-menu makes it to the table.
+
 ![murPick demo: checking features on the menu, then the selection report](docs/demo.gif)
 
 Ask an AI to research competing products and you get a 5,000-word report. By the
