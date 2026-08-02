@@ -80,8 +80,8 @@ GLM、Kimi、DeepSeek 等）均提供此类 API，配置 `ANTHROPIC_BASE_URL` �
 再用压力测试（时间压力、素材不适配）堵住漏洞。
 
 机器可判的硬要求交给脚本而非文字：`scripts/validate-menu.js` 对每份生成的菜单
-跑 12 项硬检查（checkbox id 唯一性、烧录另存逻辑、localStorage、自包含性……）。
-测试集中它对无 skill 基线菜单判 5/12 FAIL，对所有 skill 生成菜单全 PASS——
+跑 14 项硬检查（checkbox id 唯一性、烧录另存逻辑、localStorage、自包含性……）。
+测试集中它对无 skill 基线菜单判 7/14 FAIL，对所有 skill 生成菜单全 PASS——
 包括一个 143 项的真实案例。
 
 ## 示例

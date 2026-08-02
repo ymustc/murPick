@@ -106,9 +106,9 @@ without the skill documented real failures verbatim; every clause targets one;
 pressure tests (time pressure, ill-fitting materials) closed the loopholes.
 
 Machine-checkable requirements are enforced by script, not prose:
-`scripts/validate-menu.js` runs 12 hard checks on every generated menu
+`scripts/validate-menu.js` runs 14 hard checks on every generated menu
 (checkbox id uniqueness, burn-and-save logic, localStorage, self-containment…).
-In our test suite it fails the no-skill baseline menu 5/12 and passes every
+In our test suite it fails the no-skill baseline menu 7/14 and passes every
 skill-generated menu including a real 143-item case.
 
 ## Examples

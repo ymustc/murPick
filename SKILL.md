@@ -56,7 +56,9 @@ the end.
 
 One card per product: source meta (with links), "traits" list, "features" list —
 **every item its own checkbox** (stable unique id, e.g. `prod-f1`), plus a
-"select all" per card.
+"select all" per card. Every card is collapsible — tapping its title toggles a
+`data-collapsed` attribute (default expanded) — so 100+ item menus stay
+scannable on a phone.
 
 Interaction hard requirements (implement and self-test them all):
 
@@ -66,8 +68,12 @@ Interaction hard requirements (implement and self-test them all):
   `data-burned` marker; restore logic prefers burned values over localStorage)
   and download the page's outerHTML.
 - **"Export JSON"**: checked item ids/products/labels + the comment text.
+- A show-only-checked filter in the floating bar: it toggles a
+  `data-filter="checked"` attribute on `<body>` that hides unchecked items
+  (and empty cards) so the user can review their picks before saving; the
+  burn step strips the attribute so saved copies open unfiltered.
 - Run `scripts/validate-menu.js <menu.html>` from this skill's directory —
-  all 12 checks must PASS.
+  all 14 checks must PASS.
 - Test in a real browser: click a box, watch the count change; save a checked
   copy and confirm state survives. If the browser is sandbox-blocked, fall back
   to a headless DOM test (e.g. jsdom) and say so in your summary.

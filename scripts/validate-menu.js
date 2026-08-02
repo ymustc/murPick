@@ -40,7 +40,11 @@ check('comment textarea', /<textarea/.test(html));
 // 7. per-card select-all
 check('per-card select-all', /(全选|select all)/i.test(html));
 
-// 8. self-contained: no external script/style dependencies
+// 8. v0.2: collapsible sections + show-only-checked filter
+check('collapsible sections', /(<details|data-collapsed)/i.test(html));
+check('show-only-checked filter', /(data-filter|only-?checked|只看已勾)/i.test(html));
+
+// 9. self-contained: no external script/style dependencies
 const extDep = html.match(/<script[^>]+src="https?:|<link[^>]+rel="stylesheet"[^>]+href="https?:/g) || [];
 check('self-contained (no external js/css)', extDep.length === 0, extDep.length ? extDep[0] : '');
 

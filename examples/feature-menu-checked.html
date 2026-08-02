@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html data-burned="2026-08-01T10:30:00.000Z" lang="en">
+<html lang="en">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -43,10 +43,18 @@
   #bar button{border:0;border-radius:999px;padding:.55rem 1rem;font:inherit;font-size:.9rem;
     cursor:pointer;background:var(--accent);color:#fff}
   #bar button.ghost{background:transparent;border:1px solid #b7a88f;color:#f0e6d3}
+  .card-head h3{cursor:pointer;-webkit-user-select:none;user-select:none}
+  .card-head h3:before{content:"▾ ";color:var(--ink-soft);font-size:.85em}
+  .card[data-collapsed] .card-head h3:before{content:"▸ "}
+  .card[data-collapsed] .meta,.card[data-collapsed] .grp,.card[data-collapsed] label.item{display:none}
+  #bar button.ghost.active{background:#f0e6d3;color:#3d3226;border-color:#f0e6d3}
+  body[data-filter="checked"] label.item:not(.on){display:none}
+  body[data-filter="checked"] .grp{display:none}
+  body[data-filter="checked"] .card[data-empty]{display:none}
   @media (max-width:480px){body{font-size:15px}#bar{gap:.45rem}#bar button{padding:.5rem .8rem}}
 </style>
 </head>
-<body>
+<body data-burned="2026-08-02T02:00:00.000Z">
 <main>
   <h1>Feature Menu — Personal Productivity App v1</h1>
   <p class="sub">À la carte from the research summary (<code>research-summary.md</code>, 2026-08-01).
@@ -230,6 +238,7 @@
   <span id="count">0 selected</span>
   <button id="save-copy">Save checked copy</button>
   <button id="export-json" class="ghost">Export JSON</button>
+  <button id="only-checked" class="ghost" title="Review your picks before saving">Only checked</button>
 </div>
 
 <script>
@@ -251,6 +260,9 @@
       var cps=[].slice.call(card.querySelectorAll('input.pick'));
       var all=card.querySelector('input.sel-all-box');
       if(all&&cps.length)all.checked=cps.every(function(p){return p.checked;});
+      // v0.2: cards with zero checked picks hide in "only checked" mode
+      if(cps.some(function(p){return p.checked;}))card.removeAttribute('data-empty');
+      else card.setAttribute('data-empty','');
     });
     if(persist!==false){
       try{
@@ -294,12 +306,30 @@
       if(p.checked)p.setAttribute('checked','');else p.removeAttribute('checked');
     });
     comment.textContent=comment.value;
+    document.body.removeAttribute('data-filter'); // saved copies open unfiltered
     document.body.setAttribute('data-burned',new Date().toISOString());
     return '<!DOCTYPE html>\n'+document.documentElement.outerHTML;
   };
 
   document.getElementById('save-copy').addEventListener('click',function(){
     download('feature-menu-checked.html',window.__burnHTML(),'text/html');
+  });
+
+  // v0.2: collapsible cards — tap a card title to fold/unfold it
+  document.querySelectorAll('.card-head h3').forEach(function(h){
+    h.addEventListener('click',function(){
+      var card=h.closest('.card');
+      if(card.hasAttribute('data-collapsed'))card.removeAttribute('data-collapsed');
+      else card.setAttribute('data-collapsed','');
+    });
+  });
+
+  // v0.2: show-only-checked filter for reviewing picks before saving
+  var onlyBtn=document.getElementById('only-checked');
+  onlyBtn.addEventListener('click',function(){
+    var on=document.body.getAttribute('data-filter')==='checked';
+    if(on){document.body.removeAttribute('data-filter');onlyBtn.classList.remove('active');onlyBtn.textContent='Only checked';}
+    else{document.body.setAttribute('data-filter','checked');onlyBtn.classList.add('active');onlyBtn.textContent='Show all';}
   });
 
   window.__exportData=function(){
